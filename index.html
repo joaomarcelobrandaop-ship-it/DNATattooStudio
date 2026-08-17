@@ -327,14 +327,12 @@ body::before{
    ============================================================ */
 .find{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,60px);align-items:start}
 @media(max-width:900px){.find{grid-template-columns:1fr}}
-/* O mapa escala inteiro em vez de ser recortado: a caixa carrega a MESMA
-   proporção do viewBox do SVG (640x520), então "meet" preenche sem cortar
-   nada e sem sobrar faixa vazia — em qualquer largura de tela. */
+/* mapa REAL interativo (OpenStreetMap embed) — arrasta, dá zoom, é responsivo */
 .map{
   position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;
-  background:#0E0E11;aspect-ratio:640/520;width:100%;
+  background:#0E0E11;aspect-ratio:4/3;width:100%;
 }
-.map svg{width:100%;height:100%;display:block}
+.map iframe{width:100%;height:100%;border:0;display:block}
 .map__open{
   position:absolute;left:14px;bottom:14px;
   background:rgba(8,8,10,.85);border:1px solid var(--line);border-radius:var(--r);
@@ -648,75 +646,9 @@ body::before{
       <h2 class="h2">Bugibba, <em>Malta</em></h2>
     </div>
     <div class="find" style="margin-top:38px">
-      <div class="map rev" aria-label="Stylised map of Bugibba around the studio">
-        <svg viewBox="0 0 640 520" role="img" aria-label="Stylised black and white map of Bugibba with the studio marked" preserveAspectRatio="xMidYMid meet">
-  <rect width="640" height="520" fill="#0E0E11"/>
-  <!-- mar (St. Paul's Bay) -->
-  <path d="M420 0 L640 0 L640 300 C560 270 520 210 500 150 C480 95 460 40 420 0 Z" fill="#141419"/>
-  <g stroke="#26262d" stroke-width="1.5" fill="none" opacity=".8">
-    <path d="M470 60 q14 8 28 0"/><path d="M500 110 q14 8 28 0"/>
-    <path d="M540 80 q14 8 28 0"/><path d="M560 160 q14 8 28 0"/>
-    <path d="M520 210 q14 8 28 0"/><path d="M590 230 q14 8 28 0"/>
-  </g>
-  <text x="530" y="52" fill="#4b4b55" font-family="Inter,system-ui" font-size="11" letter-spacing="3" text-anchor="middle" transform="rotate(24 530 52)">ST. PAUL'S BAY</text>
-
-  <!-- costa / promenade -->
-  <path d="M420 0 C460 40 480 95 500 150 C520 210 560 270 640 300" fill="none" stroke="#8E8779" stroke-width="3.5"/>
-  <text x="475" y="205" fill="#6d675c" font-family="Inter,system-ui" font-size="10.5" letter-spacing="2.4" transform="rotate(52 475 205)">ISLET PROMENADE</text>
-
-  <!-- malha de ruas (grade típica de Bugibba, levemente girada) -->
-  <g stroke="#232329" stroke-width="7" stroke-linecap="round">
-    <path d="M-20 120 L470 68"/>
-    <path d="M-20 210 L500 155"/>
-    <path d="M-20 300 L540 242"/>
-    <path d="M-20 390 L580 330"/>
-    <path d="M-10 470 L620 408"/>
-    <path d="M60 520 L20 40"/>
-    <path d="M170 520 L128 22"/>
-    <path d="M280 515 L238 8"/>
-    <path d="M390 505 L352 30"/>
-    <path d="M480 500 L455 130"/>
-  </g>
-  <!-- rua principal -->
-  <path d="M-20 300 L540 242" stroke="#3a3a42" stroke-width="9" stroke-linecap="round"/>
-  <text x="204" y="282" fill="#77705f" font-family="Inter,system-ui" font-size="11" letter-spacing="2.6" transform="rotate(-6 204 282)">TRIQ IT-TURISTI</text>
-
-  <!-- rua do estúdio -->
-  <path d="M170 520 L128 22" stroke="#4a4a53" stroke-width="9" stroke-linecap="round"/>
-  <text x="120" y="150" fill="#9a927f" font-family="Inter,system-ui" font-size="11.5" letter-spacing="2.6" transform="rotate(84 120 150)">TRIQ IL-ĦĠEJJEĠ</text>
-
-  <!-- quarteirões sugeridos -->
-  <g fill="#131318" stroke="#1d1d23" stroke-width="1">
-    <rect x="196" y="330" width="62" height="44" transform="rotate(-6 196 330)"/>
-    <rect x="300" y="318" width="66" height="46" transform="rotate(-6 300 318)"/>
-    <rect x="206" y="180" width="58" height="40" transform="rotate(-6 206 180)"/>
-    <rect x="316" y="168" width="60" height="42" transform="rotate(-6 316 168)"/>
-    <rect x="60"  y="345" width="58" height="42" transform="rotate(-6 60 345)"/>
-    <rect x="70"  y="196" width="52" height="40" transform="rotate(-6 70 196)"/>
-  </g>
-
-  <!-- marcador do estúdio (61, Triq il-Ħġejjeġ) -->
-  <g>
-    <circle cx="152" cy="238" r="24" fill="#C1121F" opacity=".18">
-      <animate attributeName="r" values="18;30;18" dur="2.6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values=".28;.05;.28" dur="2.6s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="152" cy="238" r="10" fill="#C1121F" stroke="#0E0E11" stroke-width="3"/>
-    <g transform="translate(172,214)">
-      <rect x="0" y="0" width="128" height="46" rx="5" fill="#0B0B0D" stroke="#3a3a42"/>
-      <text x="14" y="19" fill="#E9E4DA" font-family="Inter,system-ui" font-size="13" font-weight="700">D'n'A Tattoo</text>
-      <text x="14" y="36" fill="#8E8779" font-family="Inter,system-ui" font-size="10.5">61, Triq il-Ħġejjeġ</text>
-    </g>
-  </g>
-
-  <!-- bússola -->
-  <g transform="translate(596,468)">
-    <circle r="17" fill="none" stroke="#3a3a42" stroke-width="1.5"/>
-    <path d="M0 -11 L4 6 L0 2 L-4 6 Z" fill="#8E8779"/>
-    <text y="-24" fill="#6d675c" font-family="Inter,system-ui" font-size="10" text-anchor="middle">N</text>
-  </g>
-</svg>
-        <span class="map__note">Stylised map — not to scale</span>
+      <div class="map rev" aria-label="Map of D'n'A Tattoo Studio in Bugibba, Malta">
+        <iframe title="D'n'A Tattoo Studio — Bugibba, Malta" loading="lazy"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=14.4057905%2C35.9450153%2C14.4197905%2C35.9520153&layer=mapnik&marker=35.9485153%2C14.4127905"></iframe>
         <a class="map__open" href="https://www.google.com/maps/search/?api=1&query=DnA+Tattoo+Shop+61+Triq+il-Hgejjeg+Bugibba+Malta" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
       </div>
       <div class="info rev">
