@@ -103,6 +103,11 @@ body::before{
 .btn--ghost:hover{background:var(--panel);box-shadow:none;border-color:var(--mut)}
 .hdr .btn{padding:10px 18px;min-height:40px}
 @media(max-width:840px){.nav{display:none}}
+/* celular: esconde o subtítulo e enxuga o botão pro header não ficar espremido */
+@media(max-width:480px){
+  .logo__sub{display:none}
+  .hdr .btn{padding:10px 15px;font-size:12px}
+}
 
 /* ============================================================
    HERO
