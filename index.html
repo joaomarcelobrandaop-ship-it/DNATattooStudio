@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Pirata+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 /* ============================================================
    D'n'A TATTOO STUDIO — single-file MVP
@@ -327,12 +328,17 @@ body::before{
    ============================================================ */
 .find{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,60px);align-items:start}
 @media(max-width:900px){.find{grid-template-columns:1fr}}
-/* mapa REAL interativo (OpenStreetMap embed) — arrasta, dá zoom, é responsivo */
+/* mapa REAL interativo (Leaflet + tiles CartoDB dark) — arrasta, zoom, ESCURO */
 .map{
   position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;
   background:#0E0E11;aspect-ratio:4/3;width:100%;
 }
-.map iframe{width:100%;height:100%;border:0;display:block}
+.map #leafmap{width:100%;height:100%}
+.map .leaflet-container{background:#0E0E11;font-family:var(--body)}
+.map .leaflet-control-attribution{background:rgba(8,8,10,.7);color:#5d584e;font-size:9px}
+.map .leaflet-control-attribution a{color:#8E8779}
+.map .leaflet-bar a{background:#15151A;color:#E9E4DA;border-color:#232329}
+.map .leaflet-bar a:hover{background:#1d1d23}
 .map__open{
   position:absolute;left:14px;bottom:14px;
   background:rgba(8,8,10,.85);border:1px solid var(--line);border-radius:var(--r);
@@ -647,8 +653,7 @@ body::before{
     </div>
     <div class="find" style="margin-top:38px">
       <div class="map rev" aria-label="Map of D'n'A Tattoo Studio in Bugibba, Malta">
-        <iframe title="D'n'A Tattoo Studio — Bugibba, Malta" loading="lazy"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=14.4057905%2C35.9450153%2C14.4197905%2C35.9520153&layer=mapnik&marker=35.9485153%2C14.4127905"></iframe>
+        <div id="leafmap"></div>
         <a class="map__open" href="https://www.google.com/maps/search/?api=1&query=DnA+Tattoo+Shop+61+Triq+il-Hgejjeg+Bugibba+Malta" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>
       </div>
       <div class="info rev">
@@ -796,6 +801,25 @@ $("#ideaForm").addEventListener("submit", e => {
   const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`;
   window.open(url, "_blank", "noopener");
 });
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* mapa escuro interativo (Leaflet + CartoDB dark). Carrega no site (Vercel);
+   em visualizadores que bloqueiam conteúdo externo pode não aparecer — normal. */
+(function(){
+  if (typeof L === "undefined" || !document.getElementById("leafmap")) return;
+  var LAT = 35.9485153, LON = 14.4127905;
+  var map = L.map("leafmap", {
+    center:[LAT,LON], zoom:16, zoomControl:true, scrollWheelZoom:false
+  });
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    subdomains:"abcd", maxZoom:20, attribution:"&copy; OpenStreetMap &copy; CARTO"
+  }).addTo(map);
+  var pin = L.divIcon({ className:"", iconSize:[30,40], iconAnchor:[15,40],
+    html:'<svg width="30" height="40" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg"><path fill="#C1121F" stroke="#0B0B0D" stroke-width="1.2" d="M12 1C6.8 1 3 4.9 3 9.9 3 16.7 12 31 12 31s9-14.3 9-21.1C21 4.9 17.2 1 12 1z"/><circle cx="12" cy="10" r="3.2" fill="#0B0B0D"/></svg>' });
+  L.marker([LAT,LON], {icon:pin}).addTo(map);
+  setTimeout(function(){ map.invalidateSize(); }, 300);
+})();
 </script>
 </body>
 </html>
