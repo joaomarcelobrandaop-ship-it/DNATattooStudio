@@ -810,7 +810,7 @@ $("#ideaForm").addEventListener("submit", e => {
   if (typeof L === "undefined" || !document.getElementById("leafmap")) return;
   var LAT = 35.9485153, LON = 14.4127905;
   var map = L.map("leafmap", {
-    center:[LAT,LON], zoom:16, zoomControl:true, scrollWheelZoom:false
+    center:[LAT,LON], zoom:16, zoomControl:true, scrollWheelZoom:true
   });
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
     subdomains:"abcd", maxZoom:20, attribution:"&copy; OpenStreetMap &copy; CARTO"
